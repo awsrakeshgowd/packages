@@ -4,15 +4,6 @@ pipeline {
         DEPLOY_NAME = "time-tracker-#${currentBuild.number}"
     }
     stages {
-        stage('Welcome') {
-            steps {
-                echo 'Welcome to Jenkins Declarative Pipeline for Time Tracker Project'
-                script {
-                    // Set the displayName of the current build
-                    currentBuild.displayName = DEPLOY_NAME
-                }
-            }
-        }
         stage('Git Checkout') {
             steps {
                 git url: 'https://github.com/awsrakeshgowd/time-tracker.git'
@@ -23,26 +14,13 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Publish Artifacts') {
-            steps {
-                // Publish your build artifacts here, e.g., to a server or a repository
-                echo 'Publishing build artifacts...'
-            }
-        }
-        stage('Post Build Actions') {
-            steps {
-                echo 'Build completed successfully'
-            }
-        }
     }
     post {
         success {
             echo 'Build was successful!'
-            // Additional success actions, e.g., notify Slack or Email
         }
         failure {
             echo 'Build failed.'
-            // Add failure actions, e.g., notify failure to Slack or Email
         }
     }
 }
