@@ -23,19 +23,26 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('Publish Artifacts') {
+            steps {
+                // Publish your build artifacts here, e.g., to a server or a repository
+                echo 'Publishing build artifacts...'
+            }
+        }
         stage('Post Build Actions') {
             steps {
                 echo 'Build completed successfully'
-                // Additional post-build actions can go here
             }
         }
     }
     post {
         success {
             echo 'Build was successful!'
+            // Additional success actions, e.g., notify Slack or Email
         }
         failure {
             echo 'Build failed.'
+            // Add failure actions, e.g., notify failure to Slack or Email
         }
     }
 }
