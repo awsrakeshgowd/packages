@@ -1,47 +1,41 @@
 pipeline {
     agent any
     environment {
-        DEPLOY_NAME = "mypacker-${currentBuild.number}"
+        DEPLOY_NAME = "time-tracker-#${currentBuild.number}"
     }
     stages {
         stage('Welcome') {
             steps {
-                echo 'Welcome to Jenkins Declarative Pipeline'
+                echo 'Welcome to Jenkins Declarative Pipeline for Time Tracker Project'
                 script {
                     // Set the displayName of the current build
                     currentBuild.displayName = DEPLOY_NAME
                 }
             }
         }
-        
-        stage('Checkout SCM') {
+        stage('Git Checkout') {
             steps {
-                // Checkout the Git repository
-                git url: 'https://github.com/awsrakeshgowd/Maven_Jenkins.git'
+                git url: 'https://github.com/awsrakeshgowd/time-tracker.git'
             }
         }
-
         stage('Maven Build') {
             steps {
-                // Run the Maven build
                 sh 'mvn clean package'
             }
         }
-        
         stage('Post Build Actions') {
             steps {
-                echo 'Build completed successfully!'
-                // Any additional steps post build (like archiving artifacts, etc.)
+                echo 'Build completed successfully'
+                // Additional post-build actions can go here
             }
         }
     }
-
     post {
         success {
             echo 'Build was successful!'
         }
         failure {
-            echo 'Build failed!'
+            echo 'Build failed.'
         }
     }
 }
