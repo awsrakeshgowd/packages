@@ -4,6 +4,15 @@ pipeline {
         DEPLOY_NAME = "time-tracker-#${currentBuild.number}"
     }
     stages {
+        stage('Welcome') {
+            steps {
+                echo 'Welcome to Jenkins Declarative Pipeline for Time Tracker Project'
+                script {
+                    // Set the displayName of the current build
+                    currentBuild.displayName = DEPLOY_NAME
+                }
+            }
+        }
         stage('Git Checkout') {
             steps {
                 git url: 'https://github.com/awsrakeshgowd/time-tracker.git'
@@ -12,6 +21,12 @@ pipeline {
         stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
+            }
+        }
+        stage('Post Build Actions') {
+            steps {
+                echo 'Build completed successfully'
+                // Additional post-build actions can go here
             }
         }
     }
