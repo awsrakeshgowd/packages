@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    environment {
+        DEPLOY_NAME = "mypacker-#${currentBuild.number}"
+    }
+    stages {
+        stage('Welcome') {
+            steps {
+                echo 'Welcome to Jenkins Declarative Pipeline'
+                script {
+                    // Set the displayName of the current build
+                    currentBuild.displayName = DEPLOY_NAME
+                }
+            }
+        }
+        stage('Git Checkout') {
+            steps {
+                git url: 'https://github.com/awsrakeshgowd/Maven_Jenkins.git'
+            }
+        }
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Rename JAR') {
+            steps {
+                sh 'mv target/*.jar target/mypackage.jar'
+            }
+        }
+    }
+}
